@@ -1,20 +1,73 @@
-// singlyLinkedLineList.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
-
 #include <iostream>
+#include <ctime>
 
-int main()
-{
-    std::cout << "Hello World!\n";
+using namespace std;
+
+struct Node {
+	int data;
+	Node *next;
+};
+
+Node *createNode(int data);
+void pushForward(Node *&head, int data);
+void pushBack(Node *&tail, int data);
+void outputList(Node *head);
+
+int main() {
+	srand(time(NULL));
+
+	Node *head, *tail;
+	head = tail = nullptr;
+	
+	head = tail = createNode(rand() % 90);
+
+	for (int i = 0; i < ((rand() % 10) + 1); i++) {
+		pushBack(tail, rand() % 90);
+	}
+    outputList(head);
+	cout << endl;
+
+	pushForward(head, rand() % 90);
+	outputList(head);
+	cout << endl;
 }
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
+Node *createNode(int data) {
+	Node *newNode = new Node;
+	newNode->data = data;
+	newNode->next = nullptr;
+	return newNode;
+}
 
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+void pushForward(Node *&head, int data) {
+	Node *newNode = createNode(data);
+
+	if (head == nullptr) {
+		head = newNode;
+		return;
+	}
+
+	newNode->next = head;
+	head = newNode;
+}
+
+void pushBack(Node *&tail, int data) {
+	Node* newNode = createNode(data);
+
+	if (tail == nullptr) {
+		tail = newNode;
+		return;
+	}
+
+	tail->next = newNode;
+	tail = newNode;
+}
+
+void outputList(Node *head) {
+	Node *currentNode = head;
+
+	while (currentNode != nullptr) {
+		cout << currentNode->data << "\t";
+		currentNode = currentNode->next;
+	}
+}
