@@ -11,6 +11,8 @@ struct Node {
 Node *createNode(int data);
 void pushForward(Node *&head, int data);
 void pushBack(Node *&tail, int data);
+void deleteForward(Node *&head);
+void deleteBack(Node *head, Node *&tail);
 void outputList(Node *head);
 
 int main() {
@@ -21,13 +23,23 @@ int main() {
 	
 	head = tail = createNode(rand() % 90);
 
-	for (int i = 0; i < ((rand() % 10) + 1); i++) {
+	for (int i = 0; i < 10; i++) {
 		pushBack(tail, rand() % 90);
 	}
     outputList(head);
 	cout << endl;
 
 	pushForward(head, rand() % 90);
+	outputList(head);
+	cout << endl;
+
+	deleteBack(head, tail);
+	deleteBack(head, tail);
+	deleteBack(head, tail);
+	outputList(head);
+	cout << endl;
+
+	deleteForward(head);
 	outputList(head);
 	cout << endl;
 }
@@ -63,6 +75,33 @@ void pushBack(Node *&tail, int data) {
 	tail = newNode;
 }
 
+void deleteForward(Node *&head) {
+	if (head == nullptr) {
+		return;
+	}
+
+	Node *nextEl = new Node;
+	nextEl = head->next;
+	delete head;
+	head = nextEl;
+}
+
+void deleteBack(Node *head, Node*& tail) {
+	if ((head == nullptr) || (tail == nullptr)) {
+		return;
+	}
+
+	Node *current = new Node;
+	current = head;
+	while (current->next != tail) {
+		current = current->next;
+	}
+
+	current->next = nullptr;
+	delete tail;
+	tail = current;
+}
+
 void outputList(Node *head) {
 	Node *currentNode = head;
 
@@ -70,4 +109,5 @@ void outputList(Node *head) {
 		cout << currentNode->data << "\t";
 		currentNode = currentNode->next;
 	}
+	cout << endl;
 }
